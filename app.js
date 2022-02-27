@@ -1,5 +1,5 @@
 console.log("this is beginning of app");
-a=() =>{
+let a=() =>{
     console.log("hey")
 }
 a()
