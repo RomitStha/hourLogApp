@@ -3,3 +3,11 @@ let a=() =>{
     console.log("hey")
 }
 a()
+
+
+
+
+let b = () =>{
+    console.log("b")
+}
+b()
