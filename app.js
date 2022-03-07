@@ -5,8 +5,18 @@ const client = require('./database.js')
 app.use(bodyParser.json());
 
 
-app.get('/users', (req,res) =>{
+app.get('/getall-users', (req,res) =>{
     client.query('SELECT * from users', (err,result)=> {
+        if(!err){
+            res.send(result.rows)
+
+        }
+    });
+    client.end
+})
+app.get('/get-users/:id', (req,res) =>{
+    let insertQuery = `SELECT * from users where id=${req.params.id} `
+    client.query(insertQuery, (err,result)=> {
         if(!err){
             res.send(result.rows)
 
@@ -16,7 +26,7 @@ app.get('/users', (req,res) =>{
 })
 
 
-app.post('/users', (req, res)=> {
+app.post('/create-users', (req, res)=> {
     const user = req.body;
     let insertQuery = `INSERT into users(id,email, firstname,lastname, createdat) 
                        values('${user.id}','${user.email}', '${user.firstname}','${user.lastname}','${user.createdat}')`
@@ -32,8 +42,20 @@ app.post('/users', (req, res)=> {
 
 
 
-app.get('/admin', (req,res) =>{
-    client.query('SELECT * from admin', (err,result)=> {
+app.get('/getall-admin', (req,res) =>{
+    let insertQuery = 'SELECT * from admin'
+    client.query(insertQuery, (err,result)=> {
+        if(!err){
+            res.send(result.rows)
+
+        }
+    });
+    client.end
+})
+
+app.get('get-admin/:id', (req,res) =>{
+    let insertQuery = `SELECT * from admin where id=${req.params.id} `
+    client.query(insertQuery, (err,result)=> {
         if(!err){
             res.send(result.rows)
 
@@ -43,9 +65,8 @@ app.get('/admin', (req,res) =>{
 })
 
 
-
    
-app.post('/admin', (req, res)=> {
+app.post('/create-admin', (req, res)=> {
     const user = req.body;
     let insertQuery = `INSERT into admin(id,name)
                        values('${user.id}','${user.name}')`

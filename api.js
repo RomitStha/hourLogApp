@@ -7,8 +7,7 @@ app.use(bodyParser.json());
 
 
 
-    // let insertQuery = `insert into users (email,firstName,lastName,age) 
-    //                    values(${user.email}, '${user.firstName}', '${user.lastName}',${user.age})`
+   
 
     app.post('/users', (req, res)=> {
         const user = req.body;
@@ -23,6 +22,18 @@ app.use(bodyParser.json());
         })
         client.end;
     })
+
+
+
+client.connect();
+app.listen(3000, ()=>{
+    console.log("Listening on port 3000")
+})
+
+
+
+
+
 
 // Alters table (inserting columns)
 // const addColumn = async () => {
@@ -61,9 +72,3 @@ app.use(bodyParser.json());
 //      .finally(() => {
 //                   client.end();
 //      });
-
-
-client.connect();
-app.listen(3000, ()=>{
-    console.log("Listening on port 3000")
-})
