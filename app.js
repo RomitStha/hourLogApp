@@ -3,14 +3,14 @@ const app = express()
 const bodyParser = require('body-parser')
 const client = require('./Database/database.js');
 // const notFound = require('./middlewares/not-found.js');
-// const errorHandlerMiddleware = require('./middlewares/error-handler')
+const errorHandlerMiddleware = require('./middlewares/error-handler')
 
 
 
 
 //Middleware
 app.use(bodyParser.json());
-// app.use(errorHandlerMiddleware)
+app.use(errorHandlerMiddleware)
 // app.use(notFound)
 const hourRoutes = require('./routes/hourLog')
 app.use('/',hourRoutes)
