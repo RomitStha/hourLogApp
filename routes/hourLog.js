@@ -9,6 +9,6 @@ router.route('/get-user/:id').get(getUser)
 router.route('/getall-users').get(getAllUsers)
 router.route('/get-admin/:id').get(getAdmin)
 router.route('/getall-admins').get(getAllAdmins)
-router.route('/update-admin').put(updateAdmin)
+router.route('/update-admin/:id').put(updateAdmin)
 
 module.exports = router

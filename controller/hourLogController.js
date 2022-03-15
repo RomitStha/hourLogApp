@@ -44,20 +44,6 @@ const getUser = asyncWrapper(async (req, res, next) => {
 });
 
 
-const updateAdmin = asyncWrapper(async (req, res, next) => {
-  const user = req.body;
-  let insertQuery = `UPDATE admin
-    SET name = '${user.name}'
-    WHERE id = '${user.id}`;
-  client.query(insertQuery, (err, result) => {
-    if (result.rowCount == 0) {
-        res.status(404).send(`No user with id: ${req.params.id}`)
-     } else {
-      console.log(result.rows);
-    }
-  });
-  client.end;
-});
 
 
 const createAdmin = asyncWrapper(async (req, res) => {
@@ -102,6 +88,22 @@ const getAdmin = asyncWrapper(async (req, res) => {
   client.end;
 });
 
+
+const updateAdmin = asyncWrapper(async (req, res, next) => {
+    const user = req.body;
+    let insertQuery = `UPDATE admin
+      SET name = '${user.name}'
+      WHERE id = '${req.params.id}'`;
+    client.query(insertQuery, (err, result) => {
+      if (result.rowCount == 0) {
+          res.status(404).send(`No user with id: ${req.params.id}`)
+       } else {
+        res.status(200).send("Data updated");
+      }
+    });
+    client.end;
+  });
+  
 
 module.exports = {
   getAdmin,
