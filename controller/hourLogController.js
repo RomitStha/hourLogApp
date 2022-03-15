@@ -17,6 +17,7 @@ const createUsers = asyncWrapper(async (req, res) => {
   client.end;
 });
 
+
 const getAllUsers = asyncWrapper(async (req, res) => {
   client.query("SELECT * from users", (err, result) => {
     if (!err) {
@@ -44,6 +45,42 @@ const getUser = asyncWrapper(async (req, res, next) => {
 });
 
 
+const updateUser = asyncWrapper(async (req, res, next) => {
+    const user = req.body;
+    let insertQuery = `UPDATE users
+      SET
+        email = '${user.email}',
+        firstname = '${user.firstname}',
+        lastname = '${user.lastname}',
+        createdat = '${user.createdat}'
+      WHERE id = '${req.params.id}'`;
+    client.query(insertQuery, (err, result) => {
+      if (result.rowCount == 0) {
+          res.status(404).send(`No user with id: ${req.params.id}`)
+       } else {
+        res.status(200).send("Data updated");
+      }
+    });
+    client.end;
+  });
+
+
+  const deleteUser = asyncWrapper(async (req, res, next) => {
+    let insertQuery = `DELETE  from users where id=${req.params.id} `;
+    client.query(insertQuery, (err, result) => {
+        
+      if (result.rowCount == 0) {
+          res.status(404).send(`No user with id: ${req.params.id}`)
+      
+      } else {
+        res.send("Successfully deleted ");
+  
+      }
+    });
+    client.end;
+  });
+
+
 
 
 const createAdmin = asyncWrapper(async (req, res) => {
@@ -62,6 +99,7 @@ const createAdmin = asyncWrapper(async (req, res) => {
 });
 
 
+
 const getAllAdmins = asyncWrapper(async (req, res) => {
   let insertQuery = "SELECT * from admin";
   client.query(insertQuery, (err, result) => {
@@ -71,6 +109,7 @@ const getAllAdmins = asyncWrapper(async (req, res) => {
   });
   client.end;
 });
+
 
 
 const getAdmin = asyncWrapper(async (req, res) => {
@@ -89,6 +128,7 @@ const getAdmin = asyncWrapper(async (req, res) => {
 });
 
 
+
 const updateAdmin = asyncWrapper(async (req, res, next) => {
     const user = req.body;
     let insertQuery = `UPDATE admin
@@ -103,6 +143,22 @@ const updateAdmin = asyncWrapper(async (req, res, next) => {
     });
     client.end;
   });
+
+
+  const deleteAdmin= asyncWrapper(async (req, res, next) => {
+    let insertQuery = `DELETE  from admin where id=${req.params.id} `;
+    client.query(insertQuery, (err, result) => {
+        
+      if (result.rowCount == 0) {
+          res.status(404).send(`No user with id: ${req.params.id}`)
+      
+      } else {
+        res.send("Successfully deleted ");
+  
+      }
+    });
+    client.end;
+  });
   
 
 module.exports = {
@@ -113,4 +169,7 @@ module.exports = {
   getUser,
   createUsers,
   updateAdmin,
+  updateUser,
+  deleteUser,
+  deleteAdmin
 };

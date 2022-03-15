@@ -16,9 +16,10 @@ const hourRoutes = require('./routes/hourLog')
 app.use('/',hourRoutes)
 
 client.connect();
-app.listen(3000, ()=>{
+ app.listen(3000, ()=>{
     console.log("Listening on port 3000")
 })
+
 
 
 // app.get('/getall-users', (req,res) =>{
