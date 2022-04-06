@@ -1,6 +1,6 @@
 const client = require("../Database/database");
 const asyncWrapper = require("../middlewares/async");
-const { createCustomError } = require("../errors/custom-error");
+// const { createCustomError } = require("../errors/custom-error");
 
 const createUsers = asyncWrapper(async (req, res) => {
   const user = req.body;
@@ -36,7 +36,12 @@ const getUser = asyncWrapper(async (req, res, next) => {
         res.status(404).send(`No user with id: ${req.params.id}`)
     // return next(createCustomError(`No user with id: ${req.params.id}`, 404));
 
-    } else {
+    } 
+    else if (err){
+      res.send(err.message)
+    }
+    
+    else {
       res.send(result.rows);
 
     }
