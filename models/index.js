@@ -1,9 +1,10 @@
-const {sequelize,DataTypes} = require ('sequelize')
+const {Sequelize,DataTypes} = require ('sequelize')
 
-const sequelize = new sequelize('sequelize', 'postgres','password',{
+const sequelize = new Sequelize('hourLog', 'postgres','password',{
     host: 'localhost',
     port:5433,
     dialect:'postgres',
+    pool: {max:5, min:0, idle:10000}
 })
 
 sequelize.authenticate()
@@ -17,12 +18,18 @@ sequelize.authenticate()
 
 
 const db = {};
-db.sequelize = Sequelize;
-db.sequelize = Sequelize;
+db.Sequelize = Sequelize;
+db.sequelize = sequelize;
+
+
+
+db.hourLog = require('./hourLog')(sequelize,DataTypes)
+db.candidate = require('./candidate')(sequelize,DataTypes)
+db.invoice = require('./invoice')(sequelize,DataTypes)
 
 db.sequelize.sync({force:true})
 .then(() =>{
     console.log("yes re-sync");
 })
-db.users = require('./hourLog')(sequelize,DataTypes)
+
 module.exports = db

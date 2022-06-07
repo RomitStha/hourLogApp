@@ -1,107 +1,32 @@
 const express = require('express')
+const cors = require ('cors')
 const app = express()
-const bodyParser = require('body-parser')
-const client = require('./Database/database.js');
-// const notFound = require('./middlewares/not-found.js');
-const errorHandlerMiddleware = require('./middlewares/error-handler')
+// const bodyParser = require('body-parser')
+
+let corOptions = {
+    origin: 'https://localhost:8081'
+}
 
 
+//models
+require('./models')
+
+//middlewares
+app.use(cors(corOptions))
+
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: false }))
+
+app.use(express.json());
+app.use(express.urlencoded({extended: true  }))
 
 
-//Middleware
-app.use(bodyParser.json());
-app.use(errorHandlerMiddleware)
-// app.use(notFound)
-const hourRoutes = require('./routes/hourLog')
-app.use('/',hourRoutes)
+//routes
+const route = require('./routes/routes')
+app.use('/',route)
 
-client.connect();
- app.listen(3000, ()=>{
-    console.log("Listening on port 3000")
+const PORT = process.env.PORT || 6000
+app.listen(PORT, ()=>{
+console.log(`Listening to port number: ${PORT}`)
 })
-
-
-
-// app.get('/getall-users', (req,res) =>{
-//     client.query('SELECT * from users', (err,result)=> {
-//         if(!err){
-//             res.send(result.rows)
-
-//         }
-//     });
-//     client.end
-// })
-// app.get('/get-users/:id', (req,res,next) =>{
-//     let insertQuery = `SELECT * from users where id=${req.params.id} `
-//     client.query(insertQuery, (err,result)=> {
-//         if(err){
-//     return next (createCustomError(`No user with id: ${req.params.id}`,404))
-          
-//         }
-
-        
-// else{
-//     res.send(result.rows)    
-
-//         }
-//     });
-//     client.end
-// })
-
-
-// app.post('/create-users', (req, res)=> {
-//     const user = req.body;
-//     let insertQuery = `INSERT into users(id,email, firstname,lastname, createdat) 
-//                        values('${user.id}','${user.email}', '${user.firstname}','${user.lastname}','${user.createdat}')`
-
-//     client.query(insertQuery, (err, result)=>{
-//         if(!err){
-//             res.send('Insertion was successful')
-//         }
-//         else{ console.log(err.message) }
-//     })
-//     client.end;
-// })
-
-
-
-// app.get('/getall-admin', (req,res) =>{
-//     let insertQuery = 'SELECT * from admin'
-//     client.query(insertQuery, (err,result)=> {
-//         if(!err){
-//             res.send(result.rows)
-
-//         }
-//     });
-//     client.end
-// })
-
-// app.get('get-admin/:id', (req,res) =>{
-//     let insertQuery = `SELECT * from admin where id=${req.params.id} `
-//     client.query(insertQuery, (err,result)=> {
-//         if(!err){
-//             res.send(result.rows)
-
-//         }
-//     });
-//     client.end
-// })
-
-
-   
-// app.post('/create-admin', (req, res)=> {
-//     const user = req.body;
-//     let insertQuery = `INSERT into admin(id,name)
-//                        values('${user.id}','${user.name}')`
-
-//     client.query(insertQuery, (err, result)=>{
-//         if(!err){
-//             res.send('Insertion was successful')
-//         }
-//         else{ console.log(err.message) }
-//     })
-//     client.end;
-// })
-   
- 
 
